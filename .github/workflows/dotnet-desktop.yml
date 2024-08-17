@@ -35,7 +35,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Execute unit tests
-      run: dotnet test Server/Server.csproj  # Ensure the correct path to your test project
+      run: dotnet test Server/Server/Server.csproj
 
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
