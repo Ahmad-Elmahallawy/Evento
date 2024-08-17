@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc(description.GroupName, new OpenApiInfo()
         {
-            Title = $"My API {description.ApiVersion}",
+            Title = $"Evento API {description.ApiVersion}",
             Version = description.ApiVersion.ToString(),
             Description = "A sample API with versioning",
         });
