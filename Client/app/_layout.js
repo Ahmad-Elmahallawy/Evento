@@ -18,7 +18,7 @@ const _layout = () => {
         headerTitle: "Evento",
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="(tabs)" />
     </Stack>
   );
 };
