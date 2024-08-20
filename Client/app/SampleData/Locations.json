@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Location 1",
+    "address": "123 Main St",
+    "city": "Anytown",
+    "state": "CA",
+    "zip": "12345",
+    "location": {
+      "lat": 34.0522,
+      "lng": -118.2437
+    },
+    "image": "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg",
+    "description": "A beautiful place in Anytown."
+  },
+  {
+    "id": 2,
+    "name": "Location 2",
+    "address": "456 Elm St",
+    "city": "Othertown",
+    "state": "CA",
+    "zip": "54321",
+    "location": {
+      "lat": 36.7783,
+      "lng": -119.4179
+    },
+    "image": "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg",
+    "description": "A scenic spot in Othertown."
+  },
+  {
+    "id": 3,
+    "name": "Location 3",
+    "address": "789 Oak St",
+    "city": "Thistown",
+    "state": "CA",
+    "zip": "67890",
+    "location": {
+      "lat": 37.7749,
+      "lng": -122.4194
+    },
+    "image": "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg",
+    "description": "A popular destination in Thistown."
+  }
+]
