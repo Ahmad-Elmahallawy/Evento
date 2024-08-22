@@ -2,21 +2,24 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { MaterialIcons } from '@expo/vector-icons'
+import { Link } from 'expo-router';
 
 export default function UserPage() {
 
-  // State variables for user details
+    // State variables for user details
+  const [image, setImage] = useState("https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg")
   const [name, setName] = useState("John Doe");
   const [phoneNumber, setPhoneNumber] = useState("+1 234 567 890");
   const [email, setEmail] = useState("john.doe@example.com");
   const [location, setLocation] = useState("Los Angeles, USA");
+
   return (
       <View style={styles.container}>
           <StatusBar />
           <View style={styles.picContainer}>
             <Image
               source={{
-                      uri: "https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg"
+                      uri: image
               }}
               resizeMode="contain"
                   style={styles.profilePicture}
@@ -38,13 +41,15 @@ export default function UserPage() {
               </View>
           </View>
 
-          <TouchableOpacity style={styles.editButton} /*onPress={() => alert('Edit Profile')}*/>
+          <Link
+              href={{
+                  pathname: "/screens/EditProfile",
+                  params: { image, name, phoneNumber, email, location }
+              }}
+              style={styles.editButton}
+          >
               <Text style={styles.editButtonText}>Edit Profile</Text>
-          </TouchableOpacity>
-
-
-
-
+          </Link>
 
       </View>
   )
@@ -61,9 +66,9 @@ const styles = StyleSheet.create({
         marginTop: 30,
     },
     profilePicture: {
-        width: 155,
-        height: 155,
-        borderRadius: 999,
+        width: 170,
+        height: 170,
+        borderRadius: 85,
         borderColor: '#333',
         borderWidth: 2,
     },
@@ -90,9 +95,9 @@ const styles = StyleSheet.create({
     editButton: {
         backgroundColor: '#6200EE',
         paddingVertical: 10,
-        paddingHorizontal: 20,
+        paddingHorizontal: 30,
         borderRadius: 5,
-        marginTop: 30,
+        marginTop: 30
     },
     editButtonText: {
         color: '#fff',
