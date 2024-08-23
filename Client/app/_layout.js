@@ -16,6 +16,8 @@ const _layout = () => {
         },
         headerTitleAlign: "center",
         headerTitle: "Evento",
+        headerBackTitleVisible: false,
+        headerTintColor: "#f5f5f5",
       }}
     >
       <Stack.Screen name="(tabs)" />

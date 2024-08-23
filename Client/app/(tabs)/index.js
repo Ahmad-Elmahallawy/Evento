@@ -1,8 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import CommonBtn from "../Components/CommonBtn.js"; // Import CommonBtn
+import { router } from "expo-router";
 
 export default function HomePage() {
+  const handleGetStarted = () => {
+    router.push("../login");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.heroSection}>
@@ -38,14 +44,12 @@ export default function HomePage() {
         </Pressable>
       </View>
 
-      {/* CTA */}
+      {/* CTA using CommonBtn */}
       <View style={styles.ctaSection}>
         <Text style={styles.ctaText}>
           Ready to make your next event a success?
         </Text>
-        <Pressable style={styles.ctaButton}>
-          <Text style={styles.ctaButtonText}>Get Started</Text>
-        </Pressable>
+        <CommonBtn text="Get Started" onPress={handleGetStarted} />
       </View>
     </SafeAreaView>
   );
@@ -57,14 +61,6 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     paddingLeft: 20,
     backgroundColor: "#f5f5f5",
-  },
-  header: {
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#fff",
   },
   heroSection: {
     alignItems: "center",
@@ -116,16 +112,5 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#333",
     marginBottom: 20,
-  },
-  ctaButton: {
-    backgroundColor: "#6200EE",
-    paddingHorizontal: 30,
-    paddingVertical: 10,
-    borderRadius: 5,
-  },
-  ctaButtonText: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
   },
 });
