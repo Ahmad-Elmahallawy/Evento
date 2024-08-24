@@ -37,7 +37,7 @@ export default function RegistrationPage(props) {
         onPress={() => /* TODO: we need to add function for proper authentication here*/ {}}
       />
 
-      <Text style={styles.loginLink} onPress={() => router.push("./registration")}>
+      <Text style={styles.loginLink} onPress={() => router.push("./login")}>
         Have an account? <Text style={styles.signupLink}>Login</Text>
       </Text>
     </View>
