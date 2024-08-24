@@ -1,14 +1,33 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, Image, StyleSheet } from "react-native";
+import { auth } from "../config/firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 
-export default function LoginPage(props) {
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        router.push("../(tabs)");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // Handle errors
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('../../assets/EventoLogo.png')} 
+          source={require("../../assets/EventoLogo.png")}
           style={styles.logo}
         />
       </View>
@@ -17,11 +36,15 @@ export default function LoginPage(props) {
 
       <TextInput
         placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
         placeholderTextColor="#888"
         style={styles.input}
       />
       <TextInput
         placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
         placeholderTextColor="#888"
         style={styles.input}
         secureTextEntry
@@ -29,9 +52,12 @@ export default function LoginPage(props) {
 
       <Text style={styles.forgotPassword}>Forgot your password?</Text>
 
-      <CommonBtn text="Login" onPress={() => /* TODO: we need to add function for proper authentication here*/ {}} />
+      <CommonBtn text="Login" onPress={handleLogin} />
 
-      <Text style={styles.signupText} onPress={() => router.push("./registration")}>
+      <Text
+        style={styles.signupText}
+        onPress={() => router.push("./registration")}
+      >
         Don't have an account? <Text style={styles.signupLink}>Sign Up</Text>
       </Text>
     </View>

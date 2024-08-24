@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CommonBtn from "../Components/CommonBtn.js"; // Import CommonBtn
+import { auth } from "../config/firebaseConfig";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 
 export default function HomePage() {
-  const handleGetStarted = () => {
-    router.push("../login");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user); 
+
+    return unsubscribe;
+  }, [])});
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        router.push("/(auth)/login"); 
+      })
+      .catch((error) => {
+        console.error("Logout error: ", error);
+      });
   };
 
   return (
@@ -44,12 +61,12 @@ export default function HomePage() {
         </Pressable>
       </View>
 
-      {/* CTA using CommonBtn */}
       <View style={styles.ctaSection}>
-        <Text style={styles.ctaText}>
-          Ready to make your next event a success?
-        </Text>
-        <CommonBtn text="Get Started" onPress={handleGetStarted} />
+        {user ? (
+          <CommonBtn text="Logout" onPress={handleLogout} />
+        ) : (
+          <CommonBtn text="Get Started" onPress={() => router.push("/(auth)/login")} />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -107,10 +124,4 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignItems: "center",
   },
-  ctaText: {
-    fontSize: 20,
-    textAlign: "center",
-    color: "#333",
-    marginBottom: 20,
-  },
-});
+})

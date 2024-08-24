@@ -1,9 +1,35 @@
-import React from "react";
-import { View, Text, StyleSheet, TextInput, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TextInput, Image, StyleSheet } from "react-native";
+import { auth } from "../config/firebaseConfig";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 
-export default function RegistrationPage(props) {
+export default function RegistrationPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
+  const handleRegister = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        updateProfile(user, {
+          displayName: username,
+        }).then(() => {
+          console.log("Username updated");
+          // Navigate or handle the next step
+        });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+        // Handle errors
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -17,28 +43,31 @@ export default function RegistrationPage(props) {
 
       <TextInput
         placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
         placeholderTextColor="#888"
         style={styles.input}
       />
       <TextInput
         placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
         placeholderTextColor="#888"
         style={styles.input}
       />
       <TextInput
         placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
         placeholderTextColor="#888"
         style={styles.input}
         secureTextEntry
       />
 
-      <CommonBtn
-        text="Register"
-        onPress={() => /* TODO: we need to add function for proper authentication here*/ {}}
-      />
+      <CommonBtn text="Register" onPress={handleRegister} />
 
       <Text style={styles.loginLink} onPress={() => router.push("./login")}>
-        Have an account? <Text style={styles.signupLink}>Login</Text>
+        Have an account? <Text style={styles.loginText}>Login</Text>
       </Text>
     </View>
   );
@@ -96,7 +125,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 14,
   },
-  signupLink: {
+  loginText: {
     color: "#6200EE",
     fontWeight: "bold",
   },

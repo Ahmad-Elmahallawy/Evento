@@ -6,3 +6,4 @@
 /Server/Server/appsettings.json
 /Server/Server/bin
 /Server/Server/obj
+Client/.env
