@@ -3,18 +3,23 @@ import { View, Text, StyleSheet, TextInput, Image } from "react-native";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 
-export default function LoginPage(props) {
+export default function RegistrationPage(props) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require('../../assets/EventoLogo.png')} 
+          source={require("../../assets/EventoLogo.png")}
           style={styles.logo}
         />
       </View>
 
-      <Text style={styles.title}>Welcome Back!</Text>
+      <Text style={styles.title}>Create An Account To Get Started</Text>
 
+      <TextInput
+        placeholder="Username"
+        placeholderTextColor="#888"
+        style={styles.input}
+      />
       <TextInput
         placeholder="Email"
         placeholderTextColor="#888"
@@ -27,12 +32,13 @@ export default function LoginPage(props) {
         secureTextEntry
       />
 
-      <Text style={styles.forgotPassword}>Forgot your password?</Text>
+      <CommonBtn
+        text="Register"
+        onPress={() => /* TODO: we need to add function for proper authentication here*/ {}}
+      />
 
-      <CommonBtn text="Login" onPress={() => /* TODO: we need to add function for proper authentication here*/ {}} />
-
-      <Text style={styles.signupText} onPress={() => router.push("./registration")}>
-        Don't have an account? <Text style={styles.signupLink}>Sign Up</Text>
+      <Text style={styles.loginLink} onPress={() => router.push("./registration")}>
+        Have an account? <Text style={styles.signupLink}>Login</Text>
       </Text>
     </View>
   );
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 14,
   },
-  signupText: {
+  loginLink: {
     textAlign: "center",
     color: "#777",
     marginTop: 20,
