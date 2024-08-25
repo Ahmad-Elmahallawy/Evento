@@ -4,29 +4,37 @@ import { auth } from "../config/firebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
+import { getRegistrationErrorMessage } from "./ErrorMsgs";
 
 export default function RegistrationPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [error, setError] = useState("");
 
   const handleRegister = () => {
+    setError(""); 
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
 
         updateProfile(user, {
           displayName: username,
-        }).then(() => {
-          console.log("Username updated");
-          // Navigate or handle the next step
-        });
+        })
+          .then(() => {
+            console.log("Username updated");
+            router.push("../(tabs)"); 
+          })
+          .catch((profileError) => {
+            console.log("Profile update error:", profileError.message);
+            setError("Failed to update profile. Please try again.");
+          });
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // Handle errors
+        const errorMessage = getRegistrationErrorMessage(error.code); 
+        console.log(error.code, error.message);
+        setError(errorMessage);
       });
   };
 
@@ -63,6 +71,8 @@ export default function RegistrationPage() {
         style={styles.input}
         secureTextEntry
       />
+
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
       <CommonBtn text="Register" onPress={handleRegister} />
 
@@ -113,9 +123,9 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16,
   },
-  forgotPassword: {
-    textAlign: "right",
-    color: "#6200EE",
+  errorText: { 
+    color: "red",
+    textAlign: "center",
     marginBottom: 20,
     fontSize: 14,
   },

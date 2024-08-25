@@ -4,22 +4,25 @@ import { auth } from "../config/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
+import { getLoginErrorMessage } from "./ErrorMsgs";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); 
 
   const handleLogin = () => {
+    setError("");
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        router.push("../(tabs)");
+        router.push("../(tabs)"); 
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // Handle errors
+        const errorMessage = getLoginErrorMessage(error.code); 
+        console.log(error.code, error.message);
+        setError(errorMessage);
       });
   };
 
@@ -49,6 +52,8 @@ export default function LoginPage() {
         style={styles.input}
         secureTextEntry
       />
+
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
       <Text style={styles.forgotPassword}>Forgot your password?</Text>
 
@@ -103,6 +108,12 @@ const styles = StyleSheet.create({
     elevation: 5,
     color: "#333",
     fontSize: 16,
+  },
+  errorText: {  
+    color: "red",
+    textAlign: "center",
+    marginBottom: 20,
+    fontSize: 14,
   },
   forgotPassword: {
     textAlign: "right",
