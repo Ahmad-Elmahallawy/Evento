@@ -53,8 +53,6 @@ namespace Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
-
                     b.ToTable("eventTbl");
                 });
 
@@ -76,49 +74,8 @@ namespace Server.Migrations
                     b.ToTable("rsvpTbl");
                 });
 
-            modelBuilder.Entity("Server.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("userTbl");
-                });
-
-            modelBuilder.Entity("Server.Models.Event", b =>
-                {
-                    b.HasOne("Server.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
             modelBuilder.Entity("Server.Models.RSVP", b =>
                 {
-                    b.HasOne("Server.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Server.Models.Event", "Event")
                         .WithMany()
                         .HasForeignKey("eventId")
@@ -126,8 +83,6 @@ namespace Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Event");
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,8 +8,6 @@ namespace Server.Models
         public int UserId { get; set; }
         public int eventId { get; set; }
         public RSVPStatusEnum status { get; set; }
-
-        public User User { get; set; }
         public Event Event { get; set; }
     }
 }

@@ -66,7 +66,12 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("dbConnectionString");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("The connection string 'dbConnectionString' is not configured.");
+}
 
 builder.Services.AddDbContext<EventoContext>(options =>
 {

@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Server.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class RemoveUser : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "userTbl",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    role = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_userTbl", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "eventTbl",
                 columns: table => new
@@ -42,12 +27,6 @@ namespace Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_eventTbl", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_eventTbl_userTbl_userId",
-                        column: x => x.userId,
-                        principalTable: "userTbl",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,18 +46,7 @@ namespace Server.Migrations
                         principalTable: "eventTbl",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_rsvpTbl_userTbl_UserId",
-                        column: x => x.UserId,
-                        principalTable: "userTbl",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_eventTbl_userId",
-                table: "eventTbl",
-                column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_rsvpTbl_eventId",
@@ -94,9 +62,6 @@ namespace Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "eventTbl");
-
-            migrationBuilder.DropTable(
-                name: "userTbl");
         }
     }
 }
