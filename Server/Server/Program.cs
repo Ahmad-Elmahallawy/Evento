@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Server.Models;
 
@@ -34,7 +36,35 @@ builder.Services.AddSwaggerGen(options =>
             Description = "A sample API with versioning",
         });
     }
+
+    // Add JWT security definition
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter your JWT token in the format **Bearer {token}**"
+    });
+
+    // Add JWT security requirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
+
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
 
@@ -42,6 +72,35 @@ builder.Services.AddDbContext<EventoContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+
+// Firebase Authentication configuration
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://securetoken.google.com/evento-688a3";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "https://securetoken.google.com/evento-688a3",
+            ValidateAudience = true,
+            ValidAudience = "evento-688a3",
+            ValidateLifetime = true
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+
 
 var app = builder.Build();
 
@@ -58,6 +117,10 @@ app.UseSwaggerUI(options =>
     // This does not work (the upper comment)...to be debugged...
     options.RoutePrefix = string.Empty;
 });
+
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

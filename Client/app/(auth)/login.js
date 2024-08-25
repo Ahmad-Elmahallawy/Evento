@@ -5,6 +5,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 import { getLoginErrorMessage } from "./ErrorMsgs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,8 +16,10 @@ export default function LoginPage() {
     setError("");
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
+        const jwt = user.stsTokenManager.accessToken;
+        await AsyncStorage.setItem("jwt", jwt);
         router.push("../(tabs)"); 
       })
       .catch((error) => {

@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
 import { getRegistrationErrorMessage } from "./ErrorMsgs";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function RegistrationPage() {
   const [email, setEmail] = useState("");
@@ -13,18 +14,19 @@ export default function RegistrationPage() {
   const [error, setError] = useState("");
 
   const handleRegister = () => {
-    setError(""); 
+    setError("");
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         const user = userCredential.user;
-
+        const jwt = user.stsTokenManager.accessToken;
+        await AsyncStorage.setItem("jwt", jwt);
         updateProfile(user, {
           displayName: username,
         })
           .then(() => {
             console.log("Username updated");
-            router.push("../(tabs)"); 
+            router.push("../(tabs)");
           })
           .catch((profileError) => {
             console.log("Profile update error:", profileError.message);
@@ -32,7 +34,7 @@ export default function RegistrationPage() {
           });
       })
       .catch((error) => {
-        const errorMessage = getRegistrationErrorMessage(error.code); 
+        const errorMessage = getRegistrationErrorMessage(error.code);
         console.log(error.code, error.message);
         setError(errorMessage);
       });
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16,
   },
-  errorText: { 
+  errorText: {
     color: "red",
     textAlign: "center",
     marginBottom: 20,

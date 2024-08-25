@@ -5,6 +5,7 @@ import { auth } from "../config/firebaseConfig";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import CommonBtn from "../Components/CommonBtn";
 import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomePage() {
   const [user, setUser] = useState(null);
@@ -18,7 +19,8 @@ export default function HomePage() {
 
   const handleLogout = () => {
     signOut(auth)
-      .then(() => {
+      .then(async () => {
+        await AsyncStorage.removeItem('jwt'); 
         router.push("/(auth)/login"); 
       })
       .catch((error) => {
