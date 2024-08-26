@@ -21,7 +21,9 @@ const Events = () => {
         </Pressable>
       </View>
       <EventsCard />
-      <CreateEventDialog visible={isVisible} toggleDialog={toggleDialog} />
+      {isVisible && (
+        <CreateEventDialog visible={isVisible} toggleDialog={toggleDialog} />
+      )}
     </SafeAreaView>
   );
 };
