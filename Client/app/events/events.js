@@ -1,16 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EventsCard from "./events-card";
+import axios from "axios";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const events = () => {
-  const [events, setEvents] = useState([]);
   return (
-    <View>
+    <SafeAreaView style={styles.container}>
       <EventsCard />
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default events;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: "#f5f5f5",
+  },
+});

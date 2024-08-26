@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
 
   const handleLogin = () => {
     setError("");
@@ -20,10 +20,10 @@ export default function LoginPage() {
         const user = userCredential.user;
         const jwt = user.stsTokenManager.accessToken;
         await AsyncStorage.setItem("jwt", jwt);
-        router.push("../(tabs)"); 
+        router.push("../(tabs)");
       })
       .catch((error) => {
-        const errorMessage = getLoginErrorMessage(error.code); 
+        const errorMessage = getLoginErrorMessage(error.code);
         console.log(error.code, error.message);
         setError(errorMessage);
       });
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     color: "#333",
     fontSize: 16,
   },
-  errorText: {  
+  errorText: {
     color: "red",
     textAlign: "center",
     marginBottom: 20,

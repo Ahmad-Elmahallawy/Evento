@@ -4,7 +4,6 @@ using Server.Models;
 
 namespace Server.Controllers
 {
-    [Authorize]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -26,6 +25,7 @@ namespace Server.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult AddEvent([FromBody] Event newEvent)
         {
             if (ModelState.IsValid)
