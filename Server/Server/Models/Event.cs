@@ -11,6 +11,7 @@ namespace Server.Models
         public string location { get; set; }
         [ForeignKey("Id")]
         public int userId { get; set; }
+        public int currentCapacity { get; set; }
         public int maximumCapacity { get; set; }
     }
 }

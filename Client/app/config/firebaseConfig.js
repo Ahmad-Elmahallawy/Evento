@@ -12,6 +12,7 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
+
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 const auth = getAuth(app);
 

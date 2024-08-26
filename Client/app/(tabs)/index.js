@@ -11,17 +11,22 @@ export default function HomePage() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); 
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (user) => {
+        setUser(user);
 
-    return unsubscribe;
-  }, [])});
+        return unsubscribe;
+      },
+      []
+    );
+  });
 
   const handleLogout = () => {
     signOut(auth)
       .then(async () => {
-        await AsyncStorage.removeItem('jwt'); 
-        router.push("/(auth)/login"); 
+        await AsyncStorage.removeItem("jwt");
+        router.push("/(auth)/login");
       })
       .catch((error) => {
         console.error("Logout error: ", error);
@@ -67,8 +72,15 @@ export default function HomePage() {
         {user ? (
           <CommonBtn text="Logout" onPress={handleLogout} />
         ) : (
-          <CommonBtn text="Get Started" onPress={() => router.push("/(auth)/login")} />
+          <CommonBtn
+            text="Get Started"
+            onPress={() => router.push("/(auth)/login")}
+          />
         )}
+        <CommonBtn
+          text="View Events"
+          onPress={() => router.push("/events/events")}
+        />
       </View>
     </SafeAreaView>
   );
@@ -126,4 +138,4 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignItems: "center",
   },
-})
+});
