@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Models;
 
@@ -11,9 +12,11 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(EventoContext))]
-    partial class EventoContextModelSnapshot : ModelSnapshot
+    [Migration("20240827054659_EventDBChangee")]
+    partial class EventDBChangee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

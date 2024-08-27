@@ -19,7 +19,10 @@ export default function LoginPage() {
       .then(async (userCredential) => {
         const user = userCredential.user;
         const jwt = user.stsTokenManager.accessToken;
+        const userId = user.uid;
         await AsyncStorage.setItem("jwt", jwt);
+        await AsyncStorage.setItem("uid", userId);
+        console.log(user);
         router.push("../(tabs)");
       })
       .catch((error) => {

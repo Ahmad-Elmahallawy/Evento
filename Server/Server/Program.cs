@@ -82,13 +82,13 @@ builder.Services.AddDbContext<EventoContext>(options =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "https://securetoken.google.com/evento-688a3";
+        options.Authority = "https://securetoken.google.com/eventoauth";
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = "https://securetoken.google.com/evento-688a3",
+            ValidIssuer = "https://securetoken.google.com/eventoauth",
             ValidateAudience = true,
-            ValidAudience = "evento-688a3",
+            ValidAudience = "eventoauth",
             ValidateLifetime = true
         };
         options.Events = new JwtBearerEvents

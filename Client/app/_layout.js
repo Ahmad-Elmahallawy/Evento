@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "./config/firebaseConfig"; // Import Firebase auth
 import { onAuthStateChanged } from "firebase/auth";
-import { Stack, router } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const _layout = () => {
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUser(user);
         router.push("/(tabs)");
+      } else {
         router.push("/(auth)/login");
       }
     });
 
     return unsubscribe;
-  }, []);
+  }, [router]);
 
   return (
     <Stack
@@ -36,6 +39,7 @@ const _layout = () => {
       }}
     >
       <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(auth)/login" />
     </Stack>
   );
 };

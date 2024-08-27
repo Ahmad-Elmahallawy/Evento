@@ -90,7 +90,7 @@ export default function EditProfile() {
     };
 
     return (
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='always'>
             <View style={styles.container}>
                 <View style={styles.picContainer}>
                     <TouchableOpacity onPress={handleImageSelection}>

@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Example function to retrieve the JWT
 const getJwt = async () => {
   try {
     const jwt = await AsyncStorage.getItem('jwt');

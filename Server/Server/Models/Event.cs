@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Server.Models
+﻿namespace Server.Models
 {
     public class Event
     {
@@ -9,8 +7,7 @@ namespace Server.Models
         public string description { get; set; }
         public DateTime date { get; set; }
         public string location { get; set; }
-        [ForeignKey("Id")]
-        public int userId { get; set; }
+        public string userId { get; set; }
         public int currentCapacity { get; set; }
         public int maximumCapacity { get; set; }
     }
