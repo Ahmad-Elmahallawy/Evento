@@ -65,9 +65,9 @@ const EventsCard = () => {
               data={rsvpValues}
               save="value"
               boxStyles={styles.selectDropdown}
-              inputStyles={styles.selectDropdownText} 
-              arrowStyles={styles.selectDropdownArrow} 
-              dropdownStyles={styles.absoluteDropdownMenu}
+              inputStyles={styles.selectDropdownText}
+              arrowStyles={styles.selectDropdownArrow}
+              dropdownStyles={styles.dropdownMenu}
               dropdownItemStyles={styles.dropdownItem}
               search={false}
               arrowicon={
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     backgroundColor: "#fff",
+    marginBottom: 16,
   },
   card: {
     borderRadius: 10,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
-    width: "100%", 
+    width: "100%",
   },
   button: {
     backgroundColor: "#6200EE",
@@ -154,37 +155,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 50,
     width: 130,
-    borderWidth: 0, 
+    borderWidth: 0,
   },
   selectDropdownText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 14,
-    textAlign: "center", 
+    textAlign: "center",
     paddingRight: 5,
   },
   selectDropdownArrow: {
-    color: "#fff", 
+    color: "#fff",
   },
-  absoluteDropdownMenu: {
-    position: "absolute", 
-    top: 50, 
-    left: 0,
-    right: 0,
+  dropdownMenu: {
     backgroundColor: "#fff",
     borderRadius: 4,
     elevation: 3,
-    zIndex: 1000, 
-  },
-  dropdownMenu: {
-    backgroundColor: "#fff", 
-    borderRadius: 4,
-    elevation: 3,
+    zIndex: 1000,
+    marginTop: 5, 
   },
   dropdownItem: {
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderBottomColor: "#E0E0E0", 
+    borderBottomColor: "#E0E0E0",
     borderBottomWidth: 1,
   },
 });

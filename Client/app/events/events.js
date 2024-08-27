@@ -29,8 +29,6 @@ const EventsPage = () => {
     try {
       const userId = await getUserId();
       const jwt = await getJwt()
-      console.log(jwt)
-      console.log(title, description,date, location, userId)
       const response = await fetch(
         `${process.env.EXPO_PUBLIC_API_URL}/Events`,
         {
@@ -84,13 +82,7 @@ const EventsPage = () => {
             onChangeText={setDescription}
             multiline
           />
-          <DateTimePicker
-            value={date}
-            mode="datetime"
-            display="default"
-            onChange={(event, selectedDate) => setDate(selectedDate || date)}
-            style={styles.datePicker}
-          />
+
           <ScrollView
             keyboardShouldPersistTaps="always"
             style={styles.autocompleteWrapper}
@@ -101,10 +93,10 @@ const EventsPage = () => {
               fetchDetails={true}
               listViewDisplayed={false}
               onPress={(data, details = null) => {
-                setLocation(data.description); // Store location description
+                setLocation(data.description); 
                 setSelectedLocation({
                   description: data.description,
-                  details: details, // Store additional details like coordinates
+                  details: details, 
                 });
               }}
               query={{
@@ -113,7 +105,7 @@ const EventsPage = () => {
               }}
               styles={{
                 textInput: styles.input,
-                listView: { zIndex: 1 }, // Ensure dropdown is above other elements
+                listView: { zIndex: 1 }, 
               }}
               disableScroll={true}
             />
@@ -135,7 +127,6 @@ const EventsPage = () => {
 
 const styles = StyleSheet.create({
   pageContainer: {
-    flex: 1,
     padding: 16,
     backgroundColor: "#f0f0f0",
   },
@@ -168,7 +159,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   autocompleteWrapper: {
-    zIndex: 2, // Ensure the Google Places dropdown shows above other UI elements
+    zIndex: 2, 
   },
 });
 

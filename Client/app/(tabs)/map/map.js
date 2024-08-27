@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
-// Import the JSON data
 import locations from "../../SampleData/Locations.json";
 
 export default function MapPage() {

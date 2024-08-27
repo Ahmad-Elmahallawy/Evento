@@ -36,7 +36,7 @@ const CreateEventForm = ({ onSubmit }) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardAvoidingView}
         contentContainerStyle={styles.formContainer}
-        extraScrollHeight={5} // Adjust this value to control how much the view scrolls up
+        extraScrollHeight={5} 
       >
         <Text style={styles.formTitle}>Create a New Event</Text>
         <TextInput

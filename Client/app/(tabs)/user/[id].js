@@ -6,7 +6,6 @@ import { Link } from 'expo-router';
 
 export default function UserPage() {
 
-    // State variables for user details
   const [image, setImage] = useState("https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg")
   const [name, setName] = useState("John Doe");
   const [phoneNumber, setPhoneNumber] = useState("(234) 567 890");
