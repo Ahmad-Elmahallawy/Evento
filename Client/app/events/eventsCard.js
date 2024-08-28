@@ -4,8 +4,11 @@ import { Card, Button } from "@rneui/themed";
 import formatDate from "../utils/dateFormatter";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { SelectList } from "react-native-dropdown-select-list";
+import { useRouter } from "expo-router";
+import Geocoder from "react-native-geocoding";
 
 const EventsCard = () => {
+  const router = useRouter();
   const [events, setEvents] = useState([]);
   const [selected, setSelected] = useState("");
   const rsvpValues = [
@@ -29,6 +32,61 @@ const EventsCard = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_API_KEY);
+
+  // Search by address
+  const getCoordinates = async (address) => {
+    console.log(address);
+
+    try {
+      const response = await Geocoder.from(address);
+      if (response.status === "ZERO_RESULTS") {
+        console.warn("No results found for the provided address.");
+        return null;
+      }
+      const location = response.results[0].geometry.location;
+      return location;
+    } catch (error) {
+      console.error("Error fetching coordinates:", error);
+      return null;
+    }
+  };
+
+  // const getCoordinates = async (address) => {
+  //   const apiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
+  //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+  //     address
+  //   )}&key=${apiKey}`;
+
+  //   try {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+
+  //     if (data.status === "OK") {
+  //       const { lat, lng } = data.results[0].geometry.location;
+  //       console.log("success", lat, lng);
+  //       return { lat, lng };
+  //     } else {
+  //       console.log(data.status);
+
+  //       throw new Error("Geocoding failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching coordinates:", error);
+  //     return null;
+  //   }
+  // };
+
+  const handleViewInMap = async (address) => {
+    const defaultCoordinates = { lat: 43.6532, lng: -79.3832 }; // Toronto, Canada
+    const coordinates = address
+      ? await getCoordinates(address)
+      : defaultCoordinates;
+    console.log("line 87",coordinates);
+
+    router.push({ pathname: "../(tabs)/map/map", params: coordinates });
   };
 
   return (
@@ -65,6 +123,7 @@ const EventsCard = () => {
               buttonStyle={styles.button}
               title="View in Map"
               titleStyle={styles.buttonText}
+              onPress={() => handleViewInMap(event.location)}
             />
             <SelectList
               setSelected={(val) => setSelected(val)}
