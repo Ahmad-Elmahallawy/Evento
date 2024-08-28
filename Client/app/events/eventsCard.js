@@ -48,11 +48,17 @@ const EventsCard = () => {
           </Text>
           <Card.Divider style={styles.divider} />
           <Text style={styles.eventInfo}>
-            Date: {formatDate(event.date) || "Currently Unavailable"}
-          </Text>
-          <Text style={styles.eventInfo}>
             Maximum Capacity: {event.maximumCapacity}
           </Text>
+          <Text style={styles.eventInfo}>
+            Date: {formatDate(event.date) || "Currently Unavailable"}
+          </Text>
+          <Text style={styles.eventInfo}>Location: {event.location}</Text>
+          <View style={styles.attendees}>
+            <Text>Going:</Text>
+            <Text>Not Going:</Text>
+            <Text>Maybe:</Text>
+          </View>
           <View style={styles.actionContainer}>
             <Button
               icon={<FontAwesome5 name="map-marked" size={23} color="#fff" />}
@@ -172,13 +178,20 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     elevation: 3,
     zIndex: 1000,
-    marginTop: 5, 
+    marginTop: 5,
   },
   dropdownItem: {
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderBottomColor: "#E0E0E0",
     borderBottomWidth: 1,
+  },
+  attendees: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+    width: "100%",
   },
 });
 
