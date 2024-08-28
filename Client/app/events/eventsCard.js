@@ -112,9 +112,9 @@ const EventsCard = () => {
           </Text>
           <Text style={styles.eventInfo}>Location: {event.location}</Text>
           <View style={styles.attendees}>
-            <Text>Going:</Text>
-            <Text>Not Going:</Text>
-            <Text>Maybe:</Text>
+            <Text>Going: {event.rsvpCounts.going}</Text>
+            <Text>Not Going: {event.rsvpCounts.notGoing}</Text>
+            <Text>Maybe: {event.rsvpCounts.maybe}</Text>
           </View>
           <View style={styles.actionContainer}>
             <Button

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using Server.Models.Enums;
 
 namespace Server.Controllers
 {
@@ -21,7 +22,25 @@ namespace Server.Controllers
         public IActionResult GetAllEvents()
         {
             var events = _context.eventTbl.ToList();
-            return Ok(events);
+
+            var eventDetails = events.Select(e => new
+            {
+                e.Id,
+                e.title,
+                e.description,
+                e.date,
+                e.location,
+                e.userId,
+                e.currentCapacity,
+                e.maximumCapacity,
+                RSVPCounts = new
+                {
+                    Going = _context.rsvpTbl.Count(r => r.eventId == e.Id && r.status == RSVPStatusEnum.Going),
+                    NotGoing = _context.rsvpTbl.Count(r => r.eventId == e.Id && r.status == RSVPStatusEnum.NotGoing),
+                    Maybe = _context.rsvpTbl.Count(r => r.eventId == e.Id && r.status == RSVPStatusEnum.Maybe)
+                }
+            }).ToList();
+            return Ok(eventDetails);
         }
 
         [HttpPost]
