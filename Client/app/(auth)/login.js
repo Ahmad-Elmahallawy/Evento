@@ -22,12 +22,10 @@ export default function LoginPage() {
         const userId = user.uid;
         await AsyncStorage.setItem("jwt", jwt);
         await AsyncStorage.setItem("uid", userId);
-        console.log(user);
         router.push("../(tabs)");
       })
       .catch((error) => {
         const errorMessage = getLoginErrorMessage(error.code);
-        console.log(error.code, error.message);
         setError(errorMessage);
       });
   };

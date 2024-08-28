@@ -84,7 +84,6 @@ const EventsCard = () => {
     const coordinates = address
       ? await getCoordinates(address)
       : defaultCoordinates;
-    console.log("line 87",coordinates);
 
     router.push({ pathname: "../(tabs)/map/map", params: coordinates });
   };
