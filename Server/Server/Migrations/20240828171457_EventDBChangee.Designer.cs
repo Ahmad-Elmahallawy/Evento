@@ -12,8 +12,8 @@ using Server.Models;
 namespace Server.Migrations
 {
     [DbContext(typeof(EventoContext))]
-    [Migration("20240825033755_RemoveUser")]
-    partial class RemoveUser
+    [Migration("20240828171457_EventDBChangee")]
+    partial class EventDBChangee
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("currentCapacity")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("date")
                         .HasColumnType("datetime2");
 
@@ -51,8 +54,9 @@ namespace Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("int");
+                    b.Property<string>("userId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -61,8 +65,8 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Models.RSVP", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("eventId")
                         .HasColumnType("int");

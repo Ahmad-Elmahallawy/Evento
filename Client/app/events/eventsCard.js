@@ -6,6 +6,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { SelectList } from "react-native-dropdown-select-list";
 import { useRouter } from "expo-router";
 import Geocoder from "react-native-geocoding";
+import getUserId from "../(auth)/userIdGetter";
 
 const EventsCard = () => {
   const router = useRouter();
@@ -54,30 +55,48 @@ const EventsCard = () => {
     }
   };
 
-  // const getCoordinates = async (address) => {
-  //   const apiKey = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
-  //   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-  //     address
-  //   )}&key=${apiKey}`;
+  const addRsvp = async (EventId, rsvpValue) => {
+    try {
+      const uid = await getUserId();
+      let statusKey;
+      switch (rsvpValue) {
+        case "Going":
+          statusKey = "going";
+          break;
+        case "Not Going":
+          statusKey = "notGoing";
+          break;
+        case "Maybe":
+          statusKey = "maybe";
+          break;
+      }
+  
 
-  //   try {
-  //     const response = await fetch(url);
-  //     const data = await response.json();
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/Rsvps/${EventId}/${uid}/${statusKey}`,
+        {
+          method: "POST",
+        }
+      );
 
-  //     if (data.status === "OK") {
-  //       const { lat, lng } = data.results[0].geometry.location;
-  //       console.log("success", lat, lng);
-  //       return { lat, lng };
-  //     } else {
-  //       console.log(data.status);
-
-  //       throw new Error("Geocoding failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching coordinates:", error);
-  //     return null;
-  //   }
-  // };
+      // setEvents((prevEvents) =>
+      //   prevEvents.map((event) =>
+      //     event.id === EventId
+      //       ? {
+      //           ...event,
+      //           rsvpCounts: {
+      //             ...event.rsvpCounts,
+      //             [statusKey]:
+      //               event.rsvpCounts[statusKey] + 1,
+      //           },
+      //         }
+      //       : event
+      //   )
+      // );
+    } catch (error) {
+      console.error("Error adding rsvp:", error);
+    }
+  };
 
   const handleViewInMap = async (address) => {
     const defaultCoordinates = { lat: 43.6532, lng: -79.3832 }; // Toronto, Canada
@@ -92,7 +111,7 @@ const EventsCard = () => {
     <SafeAreaView style={styles.container}>
       {events.map((event) => (
         <Card
-          key={event.Id}
+          key={event.id}
           containerStyle={styles.cardContainer}
           titleStyle={styles.cardTitle}
           dividerStyle={styles.divider}
@@ -126,6 +145,7 @@ const EventsCard = () => {
             />
             <SelectList
               setSelected={(val) => setSelected(val)}
+              onSelect={() => addRsvp(event.id, selected)}
               data={rsvpValues}
               save="value"
               boxStyles={styles.selectDropdown}

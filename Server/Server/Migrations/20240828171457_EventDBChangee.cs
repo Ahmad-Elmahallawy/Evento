@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Server.Migrations
 {
     /// <inheritdoc />
-    public partial class RemoveUser : Migration
+    public partial class EventDBChangee : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,8 @@ namespace Server.Migrations
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userId = table.Column<int>(type: "int", nullable: false),
+                    userId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    currentCapacity = table.Column<int>(type: "int", nullable: false),
                     maximumCapacity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -33,7 +34,7 @@ namespace Server.Migrations
                 name: "rsvpTbl",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     eventId = table.Column<int>(type: "int", nullable: false),
                     status = table.Column<int>(type: "int", nullable: false)
                 },

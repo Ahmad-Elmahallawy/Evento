@@ -62,8 +62,8 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Models.RSVP", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("eventId")
                         .HasColumnType("int");
